@@ -43,6 +43,9 @@ class MainActivity : AppCompatActivity() {
     private val markerAnimationHelper = MarkerAnimationHelper()
     private val uiHelper = UiHelper()
 
+    // createLocationCallback: We’re calling this function from the onCreate method of our MainActivity. In the LocationCallback abstract method, 
+    // we’ll get the user current location, update the Driver info on Firebase Real-time database if the driver is online, 
+    // and animate driver car Marker from the previous Location to a new one.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -70,6 +73,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    // requestLocationUpdates: Calling this function from the onCreate method of MainActivity if the user has installed GooglePlayServices in his/her mobile. 
+    // In this method first, we request the Location permission from the user, then we check if the Location provider is enabled, and finally start the location updates.
     @SuppressLint("MissingPermission")
     private fun requestLocationUpdate() {
         if (!uiHelper.isHaveLocationPermission(this)) {
@@ -102,17 +108,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // requestLocationUpdates: Calling this function from the onCreate method of MainActivity if the user has installed GooglePlayServices in his/her mobile.
+    // In this method first, we request the Location permission from the user, then we check if the Location provider is enabled, and finally start the location updates.
     private fun showOrAnimateMarker(latLng: LatLng) {
         if (currentPositionMarker == null)
             currentPositionMarker = googleMap.addMarker(googleMapHelper.getDriverMarkerOptions(latLng))
         else markerAnimationHelper.animateMarkerToGB(currentPositionMarker!!, latLng, LatLngInterpolator.Spherical())
     }
 
+    // animteCamera: This method is called from createLocationCallback method only once because,
+    // we only want to animate the Google Maps to driver current location when he/she opens the app.
     private fun animateCamera(latLng: LatLng) {
         val cameraUpdate = googleMapHelper.buildCameraUpdate(latLng)
         googleMap.animateCamera(cameraUpdate, 10, null)
     }
 
+    // onRequestPermissionsResult: Callback of the result of requesting location permission. 
+    // This method invoked when the user performs an action on permission. Now in this method, 
+    // if the user denies the permission then we simply show the toast else start the current location updates.
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
