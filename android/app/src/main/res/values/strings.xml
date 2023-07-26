@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">CDTKPM_2023</string>
+    <string name="app_name">CDTKPM_2023_DriverApp</string>
+    <string name="office">Office</string>
+    <string name="need_location">Enable GPS Service</string>
+    <string name="location_content">This app want to change your device setting use GPS, Wifi</string>
+    <string name="online_driver">Online</string>
 </resources>

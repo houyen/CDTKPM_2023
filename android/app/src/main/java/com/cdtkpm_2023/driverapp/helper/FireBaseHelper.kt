@@ -6,7 +6,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.spartons.driverapp.model.Driver
 
 
-// The above MarkerAnimationHelper class animate the driver car Marker from the previous location to user new Location.
+// The above MarkerAnimationHelper class animate the driver car 
+// Marker from the previous location to user new Location.
 class FirebaseHelper constructor(driverId: String) {
 
     companion object {
@@ -18,7 +19,14 @@ class FirebaseHelper constructor(driverId: String) {
             .reference
             .child(ONLINE_DRIVERS)
             .child(driverId)
-
+    /* 
+    onlineDriverDatabaseReference: When creating a DatabaseReference, 
+    we’re adding two children one for online drivers node and another one 
+    for the Driver itself. We need to inform firebase real-time database 
+    in which node to update the Diver that’s why I’m setting driverId as 
+    a top node and below the is the complete Driver object. 
+    The driverId must be unique because it differs in whole online drivers node which specific driver node to update.
+     */
     init {
         onlineDriverDatabaseReference
                 .onDisconnect()
@@ -30,9 +38,10 @@ class FirebaseHelper constructor(driverId: String) {
                 .setValue(driver)
         Log.e("Driver Info", " Updated")
     }
-
+    //updateDriver: Update the Driver new Location to firebase real-time database.
     fun deleteDriver() {
         onlineDriverDatabaseReference
                 .removeValue()
     }
+    //deleteDriver: Remove the Driver from firebase real-time database.
 }
